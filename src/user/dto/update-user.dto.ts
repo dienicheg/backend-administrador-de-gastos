@@ -1,9 +1,9 @@
 import { IsNumber, IsPositive } from "class-validator";
 
-export class CreatePresupuestoDto {
+export class UpdatePresupuestoDto {
 
     @IsNumber()
     @IsPositive()
-    cantidad: number;
+    presupuesto: number;
 
 }

@@ -4,7 +4,6 @@ import { UpdateGastoDto } from './dto/update-gasto.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model, isValidObjectId } from 'mongoose';
 import { Gasto } from './entities/gasto.entity';
-import { PresupuestoId } from './interfaces/presupuesto-id.interface';
 
 @Injectable()
 export class GastosService {
@@ -12,26 +11,28 @@ export class GastosService {
     @InjectModel(Gasto.name) private gastoModel: Model<Gasto>,
   ){}
   
-  async create(createGastoDto: CreateGastoDto) {
+  async create(createGastoDto: CreateGastoDto, req: Request) {
+    const { _id } = req['user']
     
     const gasto = new this.gastoModel(createGastoDto)
+    gasto.usuario = _id
+    gasto.createdAt = new Date().toLocaleDateString('es-AR', {year: 'numeric', month: 'long', day:'2-digit'})
 
     await gasto.save()
 
-    return {gasto};
+    return gasto;
   }
 
-  async findAll(presupuestoId: PresupuestoId) {
+  async findAll( req: Request ) {
+    const { _id } = req['user']
 
-    const { presupuesto } = presupuestoId
+    if(!isValidObjectId(_id)) throw new BadRequestException('El id del usuario debe ser un Mongo ID (usuario)')
 
-    if(!isValidObjectId(presupuesto)) throw new BadRequestException('El id del presupuesto debe ser un Mongo ID (presupuesto)')
+    const gastos = await this.gastoModel.find({ usuario: _id })
 
-    const gastos = await this.gastoModel.find({ presupuesto })
-
-    if(gastos.length === 0 ) throw new BadRequestException(`No se encontraron gastor con el id ${presupuesto}`)
+    if( gastos.length === 0 ) throw new BadRequestException(`No se encontraron gastos con el id ${_id}`)
     
-    return {gastos};
+    return gastos ;
   }
 
   async findOne(id: string) {
@@ -40,7 +41,7 @@ export class GastosService {
 
     if(!gasto) throw new BadRequestException(`No existe un gasto con el id ${id}`)
 
-    return {gasto};
+    return gasto;
   }
 
   async update(id: string, updateGastoDto: UpdateGastoDto) {
@@ -48,7 +49,7 @@ export class GastosService {
 
     if(!gastoActualizado) throw new BadRequestException('Gasto not found')
 
-    return {gastoActualizado};
+    return gastoActualizado;
   }
 
   async remove(id: string) {
@@ -56,6 +57,6 @@ export class GastosService {
 
     if(!gasto) throw new BadRequestException(`No existe un gasto con el id ${id}`)
 
-    return "Eliminado correctamente";
+    return {message: "Eliminado correctamente"};
   }
 }

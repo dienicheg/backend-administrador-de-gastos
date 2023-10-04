@@ -41,7 +41,6 @@ export class AuthGuard implements CanActivate {
       const user = await this.validate(payload)
 
       request['user'] = user;
-      
     } catch(error) {
       throw new UnauthorizedException(error.message);
     }

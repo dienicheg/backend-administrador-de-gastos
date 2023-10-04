@@ -25,6 +25,11 @@ export class User {
     })
     isActive: boolean
     
+    @Prop({
+        default: 0
+    })
+    presupuesto: number
+
 }
 
 

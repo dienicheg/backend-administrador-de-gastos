@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 import mongoose from "mongoose";
-import { Presupuesto } from "../../presupuesto/entities/presupuesto.entity";
 import { CategoriaGasto } from "../interfaces/gasto-categoria.enum";
+import { User } from "src/user/entities/user.entity";
 
 @Schema()
 export class Gasto {
@@ -20,12 +20,11 @@ export class Gasto {
     @Prop()
     nombre: string
 
-    @Prop({
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Presupuesto'    
-    })
-    presupuesto: Presupuesto
+    @Prop({type: String})
+    createdAt: string
 
+    @Prop({type: mongoose.Schema.Types.ObjectId, ref: 'User'})
+    usuario: User
 }
 
 

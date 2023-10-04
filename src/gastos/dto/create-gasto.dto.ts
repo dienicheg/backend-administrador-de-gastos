@@ -1,4 +1,4 @@
-import { IsEnum, IsMongoId, IsNumber, IsPositive, IsString, MinLength } from "class-validator";
+import { IsEnum, IsNumber, IsPositive, IsString, MinLength } from "class-validator";
 import { CategoriaGasto } from "../interfaces/gasto-categoria.enum";
 
 export class CreateGastoDto {
@@ -14,8 +14,5 @@ export class CreateGastoDto {
     @IsNumber()
     @IsPositive()
     cantidad: number;
-    
-    @IsString()
-    @IsMongoId()
-    presupuesto: string
+  
 }
