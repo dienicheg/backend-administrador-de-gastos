@@ -9,27 +9,21 @@
     <p align="center">
 
 
-## Description
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
+## Dev
+Necesitas un cluster de MongoDB
+1. Instalar dependencias
 ```bash
 $ npm install
 ```
-
-## Running the app
-
+2. Renombrar el archivo ".env.template" a ".env" 
+3. Correr aplicación
 ```bash
 # development
 $ npm run start
 
 # watch mode
 $ npm run start:dev
-
-# production mode
-$ npm run start:prod
 ```
 
 ## Endpoints

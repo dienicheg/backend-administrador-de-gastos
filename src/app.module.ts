@@ -10,7 +10,7 @@ import { GastosModule } from './gastos/gastos.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    MongooseModule.forRoot(`mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.6w9cmb2.mongodb.net/admin-presupuesto`),
+    MongooseModule.forRoot(process.env.MONGO_URL),
     UserModule,
     CommonModule,
     GastosModule
